@@ -43,11 +43,16 @@ export const RenderBlocks: React.FC<{
             const Block = blockComponents[blockType]
 
             if (Block) {
+              const isEven = index % 2 === 0
+
               return (
-                <div className="my-16" key={index}>
+                <section
+                  className={`py-16 md:py-24 ${!isEven ? 'bg-muted/30' : 'bg-transparent'}`}
+                  key={index}
+                >
                   {/* @ts-expect-error there may be some mismatch between the expected types here */}
                   <Block {...block} disableInnerContainer />
-                </div>
+                </section>
               )
             }
           }

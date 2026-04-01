@@ -21,7 +21,7 @@ export const PortfolioBlock: React.FC<PortfolioBlockType> = async ({
   })
 
   return (
-    <div className="container py-16 md:py-24">
+    <div className="container">
       <div className="max-w-2xl mb-12">
         {title && <h2 className="text-3xl font-bold mb-4">{title}</h2>}
         {description && <p className="text-lg text-muted-foreground">{description}</p>}

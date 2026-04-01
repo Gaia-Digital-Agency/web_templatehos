@@ -16,7 +16,7 @@ export const ContentMediaBlock: React.FC<ContentMediaBlockType> = ({
   media,
 }) => {
   return (
-    <div className="container py-16 md:py-24">
+    <div className="container">
       <div className={`grid grid-cols-1 md:grid-cols-2 gap-12 items-center ${mediaPosition === 'left' ? 'md:flex-row-reverse' : ''}`}>
         <div className={mediaPosition === 'left' ? 'md:order-2' : 'md:order-1'}>
           <RichText data={richText} enableGutter={false} />

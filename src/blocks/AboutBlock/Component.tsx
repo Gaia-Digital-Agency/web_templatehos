@@ -19,7 +19,7 @@ export const AboutBlock: React.FC<AboutBlockType> = async ({
   })
 
   return (
-    <div className="container py-16 md:py-24">
+    <div className="container">
       {title && <h2 className="text-3xl font-bold mb-12">{title}</h2>}
       <div className="flex flex-col gap-24">
         {aboutItems.docs.map((item: any, i: number) => (

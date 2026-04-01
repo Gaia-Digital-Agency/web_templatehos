@@ -2,6 +2,7 @@ import React from 'react'
 import { getPayload } from 'payload'
 import configPromise from '@/payload.config'
 import { Media } from '@/components/Media'
+import Link from 'next/link'
 
 export type ServicesBlockType = {
   blockType: 'servicesBlock'
@@ -28,13 +29,17 @@ export const ServicesBlock: React.FC<ServicesBlockType> = async ({
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {services.docs.map((service: any, i: number) => (
-          <div key={i} className="flex flex-col gap-4 border border-border p-6 rounded-lg hover:shadow-md transition-shadow">
+          <Link
+            key={i}
+            href={`/services/${service.slug}`}
+            className="flex flex-col gap-4 border border-border p-6 rounded-lg hover:shadow-md transition-shadow group"
+          >
             <div className="aspect-video relative overflow-hidden rounded-md mb-4">
               <Media resource={service.image} fill className="object-cover" />
             </div>
-            <h3 className="text-xl font-semibold">{service.title}</h3>
+            <h3 className="text-xl font-semibold group-hover:text-primary transition-colors">{service.title}</h3>
             <p className="text-muted-foreground">{service.description}</p>
-          </div>
+          </Link>
         ))}
       </div>
     </div>

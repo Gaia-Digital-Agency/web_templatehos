@@ -1,5 +1,37 @@
 import type { Payload, PayloadRequest } from 'payload'
 
+// Helper to create properly versioned Lexical rich text
+const richText = (children: any[]) => ({
+  root: {
+    type: 'root',
+    children,
+    direction: 'ltr' as const,
+    format: '' as const,
+    indent: 0,
+    version: 1,
+  },
+})
+
+const paragraph = (text: string) => ({
+  type: 'paragraph',
+  children: [{ type: 'text', text, version: 1, detail: 0, format: 0, mode: 'normal' as const, style: '' }],
+  direction: 'ltr' as const,
+  format: '' as const,
+  indent: 0,
+  textFormat: 0,
+  version: 1,
+})
+
+const heading = (text: string, tag: 'h1' | 'h2' | 'h3' = 'h1') => ({
+  type: 'heading',
+  tag,
+  children: [{ type: 'text', text, version: 1, detail: 0, format: 0, mode: 'normal' as const, style: '' }],
+  direction: 'ltr' as const,
+  format: '' as const,
+  indent: 0,
+  version: 1,
+})
+
 export const seedGaia = async ({ payload, req }: { payload: Payload; req: PayloadRequest }) => {
   payload.logger.info('Seeding Gaia Digital Agency data...')
 
@@ -35,26 +67,92 @@ export const seedGaia = async ({ payload, req }: { payload: Payload; req: Payloa
     depts.push(dept)
   }
 
-  // 3. Create Services
-  const serviceTitles = [
-    'Branding',
-    'Design',
-    'Marketing',
-    'Ad & SEO',
-    'Website',
-    'Social Media',
-    'Content Creation',
-    'Consultation',
-    'Strategy',
+  // 3. Create Services (with individual page content)
+  const serviceData = [
+    {
+      title: 'Branding',
+      slug: 'branding',
+      description: 'Professional branding services to define and elevate your brand identity.',
+      pageContent: 'We create cohesive brand identities that resonate with your target audience. From logo design to brand guidelines, our team ensures every touchpoint communicates your unique value proposition.',
+    },
+    {
+      title: 'Design',
+      slug: 'design',
+      description: 'Creative design solutions that bring your vision to life across all media.',
+      pageContent: 'Our design team crafts stunning visuals for digital and print media. We blend aesthetics with functionality to create designs that captivate audiences and drive results.',
+    },
+    {
+      title: 'Marketing',
+      slug: 'marketing',
+      description: 'Strategic marketing campaigns that drive growth and engagement.',
+      pageContent: 'We develop data-driven marketing strategies that connect with your audience at every stage of the customer journey. From market research to campaign execution, we deliver measurable results.',
+    },
+    {
+      title: 'Ad & SEO',
+      slug: 'ad-seo',
+      description: 'Performance advertising and SEO to maximize your online visibility.',
+      pageContent: 'Our advertising and SEO experts optimize your digital presence for maximum visibility and conversions. We combine paid media strategies with organic search optimization for sustainable growth.',
+    },
+    {
+      title: 'Website',
+      slug: 'website',
+      description: 'Custom website development built for performance and user experience.',
+      pageContent: 'We build modern, responsive websites that deliver exceptional user experiences. From e-commerce platforms to corporate sites, our development team creates solutions that scale with your business.',
+    },
+    {
+      title: 'Social Media',
+      slug: 'social-media',
+      description: 'Social media management and strategy to grow your online community.',
+      pageContent: 'We manage and grow your social media presence across all major platforms. Our strategies focus on community building, content creation, and engagement to strengthen your brand online.',
+    },
+    {
+      title: 'Content Creation',
+      slug: 'content-creation',
+      description: 'High-quality content that tells your story and engages your audience.',
+      pageContent: 'From video production to copywriting, we create compelling content that tells your brand story. Our content team produces materials that educate, entertain, and inspire action.',
+    },
+    {
+      title: 'Consultation',
+      slug: 'consultation',
+      description: 'Expert digital consultation to guide your business transformation.',
+      pageContent: 'Our consultants bring years of industry experience to help you navigate the digital landscape. We provide actionable insights and strategic roadmaps tailored to your business goals.',
+    },
+    {
+      title: 'Strategy',
+      slug: 'strategy',
+      description: 'Comprehensive digital strategy to align your business goals with execution.',
+      pageContent: 'We develop holistic digital strategies that align your business objectives with market opportunities. Our strategic planning process ensures every initiative contributes to your long-term success.',
+    },
   ]
-  for (const title of serviceTitles) {
+  for (const svc of serviceData) {
     await payload.create({
       collection: 'services',
       context: { disableRevalidate: true },
       data: {
-        title,
-        description: `Professional ${title} services tailored for your brand growth and digital presence.`,
+        title: svc.title,
+        slug: svc.slug,
+        description: svc.description,
         image: mediaId,
+        _status: 'published',
+        hero: {
+          type: 'mediumImpact',
+          richText: richText([heading(svc.title)]),
+          media: mediaId,
+        },
+        layout: [
+          {
+            blockType: 'content',
+            columns: [
+              {
+                size: 'full',
+                richText: richText([
+                  heading(svc.title, 'h2'),
+                  paragraph(svc.pageContent),
+                ]),
+              },
+            ],
+          },
+        ],
       },
     })
   }
@@ -107,18 +205,13 @@ export const seedGaia = async ({ payload, req }: { payload: Payload; req: Payloa
     data: {
       title: 'Consultation Form',
       fields: [
-        { name: 'name', label: 'Name', required: true, blockType: 'text' },
-        { name: 'email', label: 'Email', required: true, blockType: 'email' },
-        { name: 'message', label: 'Message', required: true, blockType: 'textarea' },
-        { name: 'hCaptcha', siteKey: '10000000-ffff-ffff-ffff-000000000001', secretKey: '0x0000000000000000000000000000000000000000', blockType: 'hCaptcha' },
+        { name: 'name', label: 'Name', required: true, blockType: 'text' as const },
+        { name: 'email', label: 'Email', required: true, blockType: 'email' as const },
+        { name: 'message', label: 'Message', required: true, blockType: 'textarea' as const },
+        { siteKey: '10000000-ffff-ffff-ffff-000000000001', secretKey: '0x0000000000000000000000000000000000000000', blockType: 'hCaptcha' as const },
       ],
-      confirmationType: 'message',
-      confirmationMessage: {
-        root: {
-          type: 'root',
-          children: [{ type: 'paragraph', children: [{ text: 'Thank you for your inquiry!' }] }],
-        },
-      },
+      confirmationType: 'message' as const,
+      confirmationMessage: richText([paragraph('Thank you for your inquiry!')]),
       submitButtonLabel: 'Submit',
     },
   })
@@ -129,25 +222,20 @@ export const seedGaia = async ({ payload, req }: { payload: Payload; req: Payloa
     data: {
       title: 'Career Application Form',
       fields: [
-        { name: 'name', label: 'Name', required: true, blockType: 'text' },
-        { name: 'email', label: 'Email', required: true, blockType: 'email' },
-        { 
-          name: 'department', 
-          label: 'Department', 
-          required: true, 
-          blockType: 'select',
-          options: deptNames.map(name => ({ label: name, value: name.toLowerCase() }))
+        { name: 'name', label: 'Name', required: true, blockType: 'text' as const },
+        { name: 'email', label: 'Email', required: true, blockType: 'email' as const },
+        {
+          name: 'department',
+          label: 'Department',
+          required: true,
+          blockType: 'select' as const,
+          options: deptNames.map(name => ({ label: name, value: name.toLowerCase() })),
         },
-        { name: 'resume', label: 'Resume (PDF)', required: true, blockType: 'file' },
-        { name: 'message', label: 'Message', required: true, blockType: 'textarea' },
+        { name: 'resume', label: 'Resume (PDF)', required: true, blockType: 'file' as const },
+        { name: 'message', label: 'Message', required: true, blockType: 'textarea' as const },
       ],
-      confirmationType: 'message',
-      confirmationMessage: {
-        root: {
-          type: 'root',
-          children: [{ type: 'paragraph', children: [{ text: 'Application received! We will contact you soon.' }] }],
-        },
-      },
+      confirmationType: 'message' as const,
+      confirmationMessage: richText([paragraph('Application received! We will contact you soon.')]),
       submitButtonLabel: 'Apply Now',
     },
   })
@@ -162,46 +250,26 @@ export const seedGaia = async ({ payload, req }: { payload: Payload; req: Payloa
       _status: 'published',
       hero: {
         type: 'highImpact',
-        richText: {
-          root: {
-            type: 'root',
-            children: [{ type: 'heading', tag: 'h1', children: [{ text: 'Elevate Your Digital Brand' }] }],
-          },
-        },
+        richText: richText([heading('Elevate Your Digital Brand')]),
         media: mediaId,
       },
       layout: [
         {
           blockType: 'contentMedia',
           mediaPosition: 'right',
-          richText: {
-            root: {
-              type: 'root',
-              children: [{ type: 'paragraph', children: [{ text: 'Welcome to Gaia Digital Agency. We transform digital ideas into premium experiences.' }] }],
-            },
-          },
+          richText: richText([paragraph('Welcome to Gaia Digital Agency. We transform digital ideas into premium experiences.')]),
           media: mediaId,
         },
         {
           blockType: 'contentMedia',
           mediaPosition: 'left',
-          richText: {
-            root: {
-              type: 'root',
-              children: [{ type: 'paragraph', children: [{ text: 'Our features include cutting-edge design and strategic marketing solutions.' }] }],
-            },
-          },
+          richText: richText([paragraph('Our features include cutting-edge design and strategic marketing solutions.')]),
           media: mediaId,
         },
         {
           blockType: 'contentMedia',
           mediaPosition: 'right',
-          richText: {
-            root: {
-              type: 'root',
-              children: [{ type: 'paragraph', children: [{ text: 'Our writing team produces high-quality content that resonates with your audience and drives engagement.' }] }],
-            },
-          },
+          richText: richText([paragraph('Our writing team produces high-quality content that resonates with your audience and drives engagement.')]),
           media: mediaId,
         },
       ],
@@ -217,12 +285,7 @@ export const seedGaia = async ({ payload, req }: { payload: Payload; req: Payloa
       _status: 'published',
       hero: {
         type: 'mediumImpact',
-        richText: {
-          root: {
-            type: 'root',
-            children: [{ type: 'heading', tag: 'h1', children: [{ text: 'Our Services' }] }],
-          },
-        },
+        richText: richText([heading('Our Services')]),
         media: mediaId,
       },
       layout: [
@@ -234,12 +297,7 @@ export const seedGaia = async ({ payload, req }: { payload: Payload; req: Payloa
         {
           blockType: 'formBlock',
           enableIntro: true,
-          introContent: {
-            root: {
-              type: 'root',
-              children: [{ type: 'heading', tag: 'h2', children: [{ text: 'Free Consultation' }] }],
-            },
-          },
+          introContent: richText([heading('Free Consultation', 'h2')]),
           form: consultationForm.id,
         },
       ],
@@ -255,12 +313,7 @@ export const seedGaia = async ({ payload, req }: { payload: Payload; req: Payloa
       _status: 'published',
       hero: {
         type: 'mediumImpact',
-        richText: {
-          root: {
-            type: 'root',
-            children: [{ type: 'heading', tag: 'h1', children: [{ text: 'Our Portfolio' }] }],
-          },
-        },
+        richText: richText([heading('Our Portfolio')]),
         media: mediaId,
       },
       layout: [
@@ -282,12 +335,7 @@ export const seedGaia = async ({ payload, req }: { payload: Payload; req: Payloa
       _status: 'published',
       hero: {
         type: 'mediumImpact',
-        richText: {
-          root: {
-            type: 'root',
-            children: [{ type: 'heading', tag: 'h1', children: [{ text: 'About Gaia' }] }],
-          },
-        },
+        richText: richText([heading('About Gaia')]),
         media: mediaId,
       },
       layout: [
@@ -308,12 +356,7 @@ export const seedGaia = async ({ payload, req }: { payload: Payload; req: Payloa
       _status: 'published',
       hero: {
         type: 'mediumImpact',
-        richText: {
-          root: {
-            type: 'root',
-            children: [{ type: 'heading', tag: 'h1', children: [{ text: 'Join Our Team' }] }],
-          },
-        },
+        richText: richText([heading('Join Our Team')]),
         media: mediaId,
       },
       layout: [
@@ -336,23 +379,13 @@ export const seedGaia = async ({ payload, req }: { payload: Payload; req: Payloa
       _status: 'published',
       hero: {
         type: 'lowImpact',
-        richText: {
-          root: {
-            type: 'root',
-            children: [{ type: 'heading', tag: 'h1', children: [{ text: 'Get in Touch' }] }],
-          },
-        },
+        richText: richText([heading('Get in Touch')]),
       },
       layout: [
         {
           blockType: 'formBlock',
           enableIntro: true,
-          introContent: {
-            root: {
-              type: 'root',
-              children: [{ type: 'heading', tag: 'h2', children: [{ text: 'Contact Form' }] }],
-            },
-          },
+          introContent: richText([heading('Contact Form', 'h2')]),
           form: consultationForm.id,
         },
       ],
@@ -368,12 +401,7 @@ export const seedGaia = async ({ payload, req }: { payload: Payload; req: Payloa
       _status: 'published',
       hero: {
         type: 'mediumImpact',
-        richText: {
-          root: {
-            type: 'root',
-            children: [{ type: 'heading', tag: 'h1', children: [{ text: 'Our Blog' }] }],
-          },
-        },
+        richText: richText([heading('Our Blog')]),
         media: mediaId,
       },
       layout: [
@@ -395,12 +423,7 @@ export const seedGaia = async ({ payload, req }: { payload: Payload; req: Payloa
       _status: 'published',
       hero: {
         type: 'lowImpact',
-        richText: {
-          root: {
-            type: 'root',
-            children: [{ type: 'heading', tag: 'h1', children: [{ text: 'Placeholder Page' }] }],
-          },
-        },
+        richText: richText([heading('Placeholder Page')]),
       },
       layout: [
         {
@@ -408,12 +431,7 @@ export const seedGaia = async ({ payload, req }: { payload: Payload; req: Payloa
           columns: [
             {
               size: 'full',
-              richText: {
-                root: {
-                  type: 'root',
-                  children: [{ type: 'paragraph', children: [{ text: 'This page is a placeholder for future content.' }] }],
-                },
-              },
+              richText: richText([paragraph('This page is a placeholder for future content.')]),
             },
           ],
         },
@@ -426,14 +444,12 @@ export const seedGaia = async ({ payload, req }: { payload: Payload; req: Payloa
     slug: 'settings',
     context: { disableRevalidate: true },
     data: {
-      whatsappNumber: '+1234567890',
+      whatsappNumber: '+5281337568977',
       contactEmail: 'contact@gaiada.com',
       socialLinks: [
-        { platform: 'facebook', url: 'https://facebook.com' },
-        { platform: 'instagram', url: 'https://instagram.com' },
-        { platform: 'linkedin', url: 'https://linkedin.com' },
-        { platform: 'tiktok', url: 'https://tiktok.com' },
-        { platform: 'youtube', url: 'https://youtube.com' },
+        { platform: 'facebook', url: 'https://www.facebook.com/gaiadigitalagency' },
+        { platform: 'instagram', url: 'http://34.124.244.233/seosample/' },
+        { platform: 'linkedin', url: 'https://www.linkedin.com/company/gaia-digital-agency/' },
       ],
     },
   })
@@ -443,7 +459,12 @@ export const seedGaia = async ({ payload, req }: { payload: Payload; req: Payloa
     context: { disableRevalidate: true },
     data: {
       navItems: [
-        { link: { type: 'custom', url: '/services', label: 'Services' } },
+        {
+          link: { type: 'custom', url: '/services', label: 'Services' },
+          subItems: serviceData.map((svc) => ({
+            link: { type: 'custom' as const, url: `/services/${svc.slug}`, label: svc.title },
+          })),
+        },
         { link: { type: 'custom', url: '/portfolio', label: 'Portfolio' } },
         { link: { type: 'custom', url: '/about', label: 'About' } },
         { link: { type: 'custom', url: '/careers', label: 'Careers' } },
