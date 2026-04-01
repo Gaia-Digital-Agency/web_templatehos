@@ -24,6 +24,7 @@ import { getServerSideURL } from './utilities/getURL'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
+// Main Payload CMS configuration defining collections, globals, plugins, and database settings
 export default buildConfig({
   admin: {
     components: {

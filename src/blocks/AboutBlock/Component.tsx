@@ -3,11 +3,13 @@ import { getPayload } from 'payload'
 import configPromise from '@/payload.config'
 import { Media } from '@/components/Media'
 
+// Type definition for the AboutBlock component properties
 export type AboutBlockType = {
   blockType: 'aboutBlock'
   title?: string
 }
 
+// React component that renders the About section with items fetched from the CMS
 export const AboutBlock: React.FC<AboutBlockType> = async ({
   title,
 }) => {

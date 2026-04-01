@@ -3,6 +3,7 @@ import { getCachedGlobal } from '@/utilities/getGlobals'
 import { MessageCircle } from 'lucide-react'
 import type { Setting } from '@/payload-types'
 
+// WhatsApp call-to-action button component
 export const WhatsAppCTA: React.FC = async () => {
   const settings: Setting = await getCachedGlobal('settings', 1)()
 

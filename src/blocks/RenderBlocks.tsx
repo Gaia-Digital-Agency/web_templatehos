@@ -13,6 +13,7 @@ import { PortfolioBlock } from '@/blocks/PortfolioBlock/Component'
 import { AboutBlock } from '@/blocks/AboutBlock/Component'
 import { CareerBlock } from '@/blocks/CareerBlock/Component'
 
+// Mapping of block slugs to their corresponding React components
 const blockComponents = {
   archive: ArchiveBlock,
   content: ContentBlock,
@@ -26,6 +27,7 @@ const blockComponents = {
   careerBlock: CareerBlock,
 }
 
+// Component that iterates through and renders an array of page layout blocks
 export const RenderBlocks: React.FC<{
   blocks: Page['layout'][0][]
 }> = (props) => {

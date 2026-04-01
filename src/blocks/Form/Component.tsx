@@ -11,6 +11,7 @@ import type { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
 import { fields } from './fields'
 import { getClientSideURL } from '@/utilities/getURL'
 
+// Type definition for the FormBlock component properties
 export type FormBlockType = {
   blockName?: string
   blockType?: 'formBlock'
@@ -19,6 +20,7 @@ export type FormBlockType = {
   introContent?: DefaultTypedEditorState
 }
 
+// Client-side component that renders a form builder form with validation and submission logic
 export const FormBlock: React.FC<
   {
     id?: string

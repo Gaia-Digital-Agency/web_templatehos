@@ -1,5 +1,6 @@
 import type { NextConfig } from 'next'
 
+// Configures Next.js redirects to handle incompatible browsers
 export const redirects: NextConfig['redirects'] = async () => {
   const internetExplorerRedirect = {
     destination: '/ie-incompatible.html',

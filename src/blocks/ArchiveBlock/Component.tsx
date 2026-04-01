@@ -7,6 +7,7 @@ import RichText from '@/components/RichText'
 
 import { CollectionArchive } from '@/components/CollectionArchive'
 
+// Component for rendering a collection archive with optional filtering by categories
 export const ArchiveBlock: React.FC<
   ArchiveBlockProps & {
     id?: string

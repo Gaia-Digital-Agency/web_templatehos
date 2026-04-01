@@ -3,6 +3,7 @@ import type { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
 import RichText from '@/components/RichText'
 import { Media } from '@/components/Media'
 
+// Type definition for the ContentMediaBlock component properties
 export type ContentMediaBlockType = {
   blockType: 'contentMedia'
   mediaPosition: 'left' | 'right'
@@ -10,6 +11,7 @@ export type ContentMediaBlockType = {
   media: any
 }
 
+// Component that renders a layout with content and media side-by-side
 export const ContentMediaBlock: React.FC<ContentMediaBlockType> = ({
   mediaPosition,
   richText,

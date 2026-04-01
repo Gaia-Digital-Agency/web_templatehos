@@ -4,12 +4,14 @@ import configPromise from '@/payload.config'
 import { Media } from '@/components/Media'
 import Link from 'next/link'
 
+// Type definition for the ServicesBlock component properties
 export type ServicesBlockType = {
   blockType: 'servicesBlock'
   title?: string
   description?: string
 }
 
+// Component that renders the Services section with service cards linking to details
 export const ServicesBlock: React.FC<ServicesBlockType> = async ({
   title,
   description,

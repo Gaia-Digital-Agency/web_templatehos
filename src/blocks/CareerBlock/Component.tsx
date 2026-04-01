@@ -4,6 +4,7 @@ import configPromise from '@/payload.config'
 import { FormBlock } from '../Form/Component'
 import { Media } from '@/components/Media'
 
+// Type definition for the CareerBlock component properties
 export type CareerBlockType = {
   blockType: 'careerBlock'
   title?: string
@@ -11,6 +12,7 @@ export type CareerBlockType = {
   form: any
 }
 
+// Component that renders the Career section with departments, team members, and an inquiry form
 export const CareerBlock: React.FC<CareerBlockType> = async ({
   title,
   description,

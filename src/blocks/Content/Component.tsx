@@ -6,6 +6,7 @@ import type { ContentBlock as ContentBlockProps } from '@/payload-types'
 
 import { CMSLink } from '../../components/Link'
 
+// Component for rendering a multi-column content block with rich text and optional links
 export const ContentBlock: React.FC<ContentBlockProps> = (props) => {
   const { columns } = props
 

@@ -3,12 +3,14 @@ import { getPayload } from 'payload'
 import configPromise from '@/payload.config'
 import { Media } from '@/components/Media'
 
+// Type definition for the PortfolioBlock component properties
 export type PortfolioBlockType = {
   blockType: 'portfolioBlock'
   title?: string
   description?: string
 }
 
+// Component that renders the Portfolio section with projects fetched from the CMS
 export const PortfolioBlock: React.FC<PortfolioBlockType> = async ({
   title,
   description,

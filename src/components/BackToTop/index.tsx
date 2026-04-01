@@ -2,9 +2,11 @@
 import React, { useEffect, useState } from 'react'
 import { ArrowUp } from 'lucide-react'
 
+// Button component to scroll back to the top of the page
 export const BackToTop: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false)
 
+  // Toggles the visibility of the back-to-top button based on scroll position
   const toggleVisibility = () => {
     if (window.scrollY > 300) {
       setIsVisible(true)
@@ -13,6 +15,7 @@ export const BackToTop: React.FC = () => {
     }
   }
 
+  // Smoothly scrolls the window to the top
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
