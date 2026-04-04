@@ -65,7 +65,7 @@ export const plugins: Plugin[] = [
             return {
               ...field,
               blocks: [
-                ...(field.blocks || []),
+                ...((field as any).blocks || []),
                 {
                   slug: 'hCaptcha',
                   fields: [

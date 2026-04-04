@@ -92,16 +92,23 @@ Example backup created on the server:
 
 - `database_backup/template_db_20260404_055332.sql.gz`
 
+## Deployment
+
+Running on GCP VM (`gda-s01`) as of April 4, 2026:
+
+- **PM2 process**: `template` on port `3004`
+- **Nginx**: `/template` location block in `sites-enabled/gda-s01` proxying to `127.0.0.1:3004`
+- **URL**: `http://34.124.244.233/template`
+- **Admin**: `http://34.124.244.233/template/admin`
+- **Database**: `template_db` owned by `template_user`
+
 ## Build Status
 
 Current state as of April 4, 2026:
 
-- the project has been repointed to the `openclaw_base` remote
-- multiple TypeScript and script import issues have already been fixed
-- the production build is still not fully clean yet
-- remaining work is focused on TypeScript cleanup in app and seed files
-
-So this project is already usable as a base template, but it still needs additional cleanup before being considered a fully clean production-ready starter.
+- Production build passes cleanly
+- Two TypeScript fixes applied: `plugins/index.ts` (field.blocks cast) and `seed/index.ts` (navItems cast)
+- Site is live and serving via PM2 + Nginx
 
 ## Development
 
