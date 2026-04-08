@@ -9,8 +9,12 @@ const defaultScopes = [
   'status:read',
   'pages:write',
   'posts:write',
+  'services:write',
   'globals:write',
   'media:write',
+  'approval:write',
+  'publish:write',
+  'search:read',
   'revalidate:write',
 ] as const
 
@@ -51,6 +55,19 @@ export type SerenaPostUpsertInput = {
   meta?: Record<string, unknown>
   status?: 'draft' | 'published'
   publishedAt?: string | null
+}
+
+export const supportedManagedCollections = ['pages', 'posts', 'services'] as const
+
+export type SerenaManagedCollection = (typeof supportedManagedCollections)[number]
+
+export const isSupportedManagedCollection = (value: string): value is SerenaManagedCollection =>
+  (supportedManagedCollections as readonly string[]).includes(value)
+
+export type SerenaDocumentLocator = {
+  collection: SerenaManagedCollection
+  id?: number | string
+  slug?: string
 }
 
 export const getSerenaScope = () => defaultScopes
@@ -275,6 +292,94 @@ export const buildDefaultRichTextRoot = (text: string) => ({
 
 export const buildDefaultPostContent = (title?: string) =>
   buildDefaultRichTextRoot(title ? `${title} draft created by Serena.` : 'Draft created by Serena.')
+
+export const buildDocumentPath = ({
+  collection,
+  slug,
+}: {
+  collection: SerenaManagedCollection
+  slug?: string | null
+}) => {
+  if (!slug) return null
+
+  if (collection === 'pages') {
+    return buildPagePath(slug)
+  }
+
+  if (collection === 'posts') {
+    return `/posts/${slug}`
+  }
+
+  if (collection === 'services') {
+    return `/services/${slug}`
+  }
+
+  return null
+}
+
+export const findManagedDocument = async (
+  payload: any,
+  locator: SerenaDocumentLocator,
+) => {
+  if (locator.id !== undefined) {
+    try {
+      return await payload.findByID({
+        collection: locator.collection,
+        id: locator.id,
+        depth: 0,
+        overrideAccess: true,
+      })
+    } catch {
+      return null
+    }
+  }
+
+  if (locator.slug) {
+    return (
+      await payload.find({
+        collection: locator.collection,
+        depth: 0,
+        limit: 1,
+        overrideAccess: true,
+        pagination: false,
+        where: {
+          slug: {
+            equals: locator.slug,
+          },
+        },
+      })
+    ).docs[0] || null
+  }
+
+  return null
+}
+
+export const collectApprovalIssues = ({
+  collection,
+  doc,
+}: {
+  collection: SerenaManagedCollection
+  doc: Record<string, any>
+}) => {
+  const issues: string[] = []
+
+  if (!doc.title) issues.push('Missing title')
+  if (!doc.slug) issues.push('Missing slug')
+
+  if (collection === 'pages') {
+    if (!Array.isArray(doc.layout) || doc.layout.length === 0) issues.push('Page layout is empty')
+  }
+
+  if (collection === 'posts') {
+    if (!doc.content?.root?.children?.length) issues.push('Post content is empty')
+  }
+
+  if (collection === 'services') {
+    if (!doc.description) issues.push('Service description is missing')
+  }
+
+  return issues
+}
 
 export const allowedGlobalSlugs = ['header', 'footer', 'settings'] as const
 

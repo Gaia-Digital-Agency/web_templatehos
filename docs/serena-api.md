@@ -169,11 +169,78 @@ curl -X POST "$BASE_URL/api/serena/media/upload" \
   -F "alt=Homepage hero"
 ```
 
+### `POST /api/serena/approval/request`
+
+Checks whether a managed document is ready to publish.
+
+Supported collections:
+
+- `pages`
+- `posts`
+- `services`
+
+Request:
+
+```json
+{
+  "collection": "posts",
+  "slug": "yesterday-blog-draft"
+}
+```
+
+Response includes:
+
+- readiness flag
+- validation issues
+- current status
+- resolved path
+
+### `POST /api/serena/publish`
+
+Publishes a managed document after an approval check.
+
+Request:
+
+```json
+{
+  "collection": "posts",
+  "slug": "yesterday-blog-draft"
+}
+```
+
+By default this enforces approval readiness. To bypass readiness checks explicitly:
+
+```json
+{
+  "collection": "posts",
+  "slug": "yesterday-blog-draft",
+  "requireApproval": false
+}
+```
+
+### `GET /api/serena/content/search?q=...`
+
+Searches across managed content collections for Serena workflows.
+
+Current search scope:
+
+- `pages`
+- `posts`
+- `services`
+
+Example:
+
+```bash
+curl -H "Authorization: Bearer $SERENA_API_SECRET" \
+  "$BASE_URL/api/serena/content/search?q=blog&limit=5"
+```
+
 ## Intended Evolution
 
 The next reusable endpoints for other Serena-managed sites should likely be:
 
-- `/api/serena/publish`
 - `/api/serena/content/search`
+ - `/api/serena/workflows/publish-bundle`
+ - `/api/serena/approvals/queue`
 
 This keeps the contract stable across sites while allowing each project to expose only the content domains it actually supports.

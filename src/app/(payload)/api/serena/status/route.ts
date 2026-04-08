@@ -44,6 +44,9 @@ export async function GET(request: NextRequest) {
       postUpsert: true,
       globalUpdate: true,
       mediaUpload: true,
+      approvalRequest: true,
+      publish: true,
+      contentSearch: true,
       revalidate: true,
     },
   })

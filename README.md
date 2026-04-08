@@ -94,6 +94,9 @@ Current V1 endpoints:
 - `POST /api/serena/posts/upsert`
 - `POST /api/serena/globals/update`
 - `POST /api/serena/media/upload`
+- `POST /api/serena/approval/request`
+- `POST /api/serena/publish`
+- `GET /api/serena/content/search`
 - `POST /api/serena/revalidate`
 
 See `docs/serena-api.md` for the contract and expected environment variables.
