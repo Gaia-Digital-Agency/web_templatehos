@@ -23,3 +23,5 @@ node_modules/
 
 /database_backup/
 /.claude/worktrees/
+.next_prev*/
+data/
