@@ -13,7 +13,7 @@ const escapeBody = (value: string) => {
 
 const createMessage = ({ body, subject, to }: EmailInput) => {
   return [
-    `From: Hutton Skills <${portalConfig.emailFrom}>`,
+    `From: Victor Skills <${portalConfig.emailFrom}>`,
     `To: ${to}`,
     `Subject: ${subject}`,
     'MIME-Version: 1.0',

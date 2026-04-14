@@ -51,7 +51,7 @@ export function EmailManager() {
       <Card className="border-black/5 shadow-[0_25px_80px_rgba(76,58,29,0.08)]">
         <CardHeader>
           <CardTitle className="text-2xl">Send Email</CardTitle>
-          <CardDescription>Use the Gmail account for Hutton outreach, booking confirmations, and follow-up messages.</CardDescription>
+          <CardDescription>Use the Gmail account for Victor outreach, booking confirmations, and follow-up messages.</CardDescription>
         </CardHeader>
         <CardContent>
           <form
@@ -119,7 +119,7 @@ export function EmailManager() {
       <Card className="border-black/5 shadow-[0_25px_80px_rgba(76,58,29,0.08)]">
         <CardHeader>
           <CardTitle className="text-2xl">Recent Email Activity</CardTitle>
-          <CardDescription>Every attempt is logged so testing is visible before Hutton starts using it.</CardDescription>
+          <CardDescription>Every attempt is logged so testing is visible before Victor starts using it.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
           {logs.length ? (

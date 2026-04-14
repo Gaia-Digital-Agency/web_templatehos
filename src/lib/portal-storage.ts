@@ -31,8 +31,8 @@ export type EmailLog = {
 }
 
 const dataDir = path.join(process.cwd(), 'data')
-const appointmentsFile = path.join(dataDir, 'hutton-appointments.json')
-const emailLogsFile = path.join(dataDir, 'hutton-email-logs.json')
+const appointmentsFile = path.join(dataDir, 'victor-appointments.json')
+const emailLogsFile = path.join(dataDir, 'victor-email-logs.json')
 
 const ensureDataDir = async () => {
   await fs.mkdir(dataDir, { recursive: true })

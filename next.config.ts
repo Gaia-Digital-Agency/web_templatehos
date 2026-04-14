@@ -12,15 +12,17 @@ const NEXT_PUBLIC_SERVER_URL = process.env.VERCEL_PROJECT_PRODUCTION_URL
   : process.env.__NEXT_PRIVATE_ORIGIN || 'http://localhost:3000'
 
 const nextConfig: NextConfig = {
-  basePath: '/templatehos',
+  
   allowedDevOrigins: ['34.124.244.233'],
   images: {
     localPatterns: [
       {
-        pathname: '/templatehos/api/media/file/**',
+        pathname: '/api/media/file/**',
       },
     ],
-    qualities: [100],
+    qualities: [75],
+    minimumCacheTTL: 2678400,
+    formats: ['image/avif', 'image/webp'],
     remotePatterns: [
       ...[NEXT_PUBLIC_SERVER_URL /* 'https://example.com' */].map((item) => {
         const url = new URL(item)
@@ -30,6 +32,10 @@ const nextConfig: NextConfig = {
           protocol: url.protocol.replace(':', '') as 'http' | 'https',
         }
       }),
+      {
+        hostname: 'images.unsplash.com',
+        protocol: 'https',
+      },
     ],
   },
   webpack: (webpackConfig) => {

@@ -12,13 +12,13 @@ export const Logo = (props: Props) => {
 
   return (
     <span
-      aria-label="Hutton Service"
+      aria-label="Victor Service"
       className={clsx(
         'inline-flex h-[34px] items-center text-lg font-semibold uppercase tracking-[0.18em] text-slate-900',
         className,
       )}
     >
-      Hutton Service
+      Victor Service
     </span>
   )
 }

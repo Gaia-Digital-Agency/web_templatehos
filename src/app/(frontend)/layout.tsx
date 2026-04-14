@@ -51,12 +51,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
 export const metadata: Metadata = {
   metadataBase: new URL(getServerSideURL()),
-  title: 'Hutton Service',
-  description: 'Hutton Service helps manage appointments, bookings, and client email communication.',
+  title: 'Victor AI Agent — Showcase by Gaiada',
+  description: 'Victor is a general-purpose AI assistant that manages email, calendars, content, and documents. This site showcases what Victor can build.',
   openGraph: mergeOpenGraph(),
   twitter: {
     card: 'summary_large_image',
-    title: 'Hutton Service',
-    description: 'Hutton Service helps manage appointments, bookings, and client email communication.',
+    title: 'Victor AI Agent — Showcase by Gaiada',
+    description: 'Victor is a general-purpose AI assistant that manages email, calendars, content, and documents. This site showcases what Victor can build.',
   },
 }

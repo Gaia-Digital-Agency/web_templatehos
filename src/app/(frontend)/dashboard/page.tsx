@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-import { PortalShell } from '@/components/hutton/PortalShell'
+import { PortalShell } from '@/components/victor/PortalShell'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { requirePortalSession } from '@/lib/portal-auth'
@@ -11,7 +11,7 @@ export default async function DashboardPage() {
   return (
     <PortalShell
       current="dashboard"
-      subtitle="Choose the workflow Hutton needs today. Both tools are built for live testing on this site before onboarding the team."
+      subtitle="Choose the workflow Victor needs today. Both tools are built for live testing on this site before onboarding the team."
       title="Operational Dashboard"
     >
       <div className="grid gap-6 md:grid-cols-2">

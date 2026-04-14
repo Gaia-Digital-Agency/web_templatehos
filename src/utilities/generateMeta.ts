@@ -28,8 +28,8 @@ export const generateMeta = async (args: {
   const ogImage = getImageURL(doc?.meta?.image)
 
   const title = doc?.meta?.title
-    ? doc?.meta?.title + ' | Hutton Service'
-    : 'Hutton Service'
+    ? doc?.meta?.title + ' | Victor Service'
+    : 'Victor Service'
 
   return {
     description: doc?.meta?.description,

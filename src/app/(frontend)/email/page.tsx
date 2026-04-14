@@ -1,5 +1,5 @@
-import { EmailManager } from '@/components/hutton/EmailManager'
-import { PortalShell } from '@/components/hutton/PortalShell'
+import { EmailManager } from '@/components/victor/EmailManager'
+import { PortalShell } from '@/components/victor/PortalShell'
 import { requirePortalSession } from '@/lib/portal-auth'
 
 export default async function EmailPage() {

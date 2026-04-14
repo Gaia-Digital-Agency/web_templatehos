@@ -83,6 +83,6 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
 
 export function generateMetadata(): Metadata {
   return {
-    title: 'Hutton Service Search',
+    title: 'Victor Service Search',
   }
 }
