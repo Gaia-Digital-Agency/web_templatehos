@@ -14,7 +14,7 @@ export const Logo = (props: Props) => {
     <span
       aria-label="Victor Service"
       className={clsx(
-        'inline-flex h-[34px] items-center text-lg font-semibold uppercase tracking-[0.18em] text-slate-900',
+        'inline-flex h-[34px] items-center text-lg font-semibold uppercase tracking-[0.18em]',
         className,
       )}
     >
