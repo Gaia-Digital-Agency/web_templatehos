@@ -25,3 +25,4 @@ node_modules/
 /.claude/worktrees/
 .next_prev*/
 data/
+tsconfig.tsbuildinfo
